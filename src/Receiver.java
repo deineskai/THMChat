@@ -1,6 +1,6 @@
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
 
-public class Receiver {
+public abstract class Receiver {
 
     private final String name;
 

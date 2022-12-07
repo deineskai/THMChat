@@ -10,7 +10,7 @@ public enum ANSIColors {
     CYAN("\033[0;36m"),    // CYAN
     WHITE("\033[0;37m"),   // WHITE
 
-    // Bold
+    //Bold
     BLACK_BOLD("\033[1;30m"),  // BLACK
     RED_BOLD("\033[1;31m"),    // RED
     GREEN_BOLD("\033[1;32m"),  // GREEN
@@ -20,7 +20,7 @@ public enum ANSIColors {
     CYAN_BOLD("\033[1;36m"),   // CYAN
     WHITE_BOLD("\033[1;37m"),  // WHITE
 
-    // Underline
+    //Underline
     BLACK_UNDERLINED("\033[4;30m"),  // BLACK
     RED_UNDERLINED("\033[4;31m"),    // RED
     GREEN_UNDERLINED("\033[4;32m"),  // GREEN
@@ -30,7 +30,7 @@ public enum ANSIColors {
     CYAN_UNDERLINED("\033[4;36m"),   // CYAN
     WHITE_UNDERLINED("\033[4;37m"),  // WHITE
 
-    // Background
+    //Background
     BLACK_BACKGROUND("\033[40m"),  // BLACK
     RED_BACKGROUND("\033[41m"),    // RED
     GREEN_BACKGROUND("\033[42m"),  // GREEN
@@ -40,7 +40,7 @@ public enum ANSIColors {
     CYAN_BACKGROUND("\033[46m"),   // CYAN
     WHITE_BACKGROUND("\033[47m"),  // WHITE
 
-    // High Intensity
+    //High Intensity
     BLACK_BRIGHT("\033[0;90m"),  // BLACK
     RED_BRIGHT("\033[0;91m"),    // RED
     GREEN_BRIGHT("\033[0;92m"),  // GREEN
@@ -50,7 +50,7 @@ public enum ANSIColors {
     CYAN_BRIGHT("\033[0;96m"),   // CYAN
     WHITE_BRIGHT("\033[0;97m"),  // WHITE
 
-    // Bold High Intensity
+    //Bold High Intensity
     BLACK_BOLD_BRIGHT("\033[1;90m"), // BLACK
     RED_BOLD_BRIGHT("\033[1;91m"),   // RED
     GREEN_BOLD_BRIGHT("\033[1;92m"), // GREEN
@@ -60,7 +60,7 @@ public enum ANSIColors {
     CYAN_BOLD_BRIGHT("\033[1;96m"),  // CYAN
     WHITE_BOLD_BRIGHT("\033[1;97m"), // WHITE
 
-    // High Intensity backgrounds
+    //High Intensity backgrounds
     BLACK_BACKGROUND_BRIGHT("\033[0;100m"), // BLACK
     RED_BACKGROUND_BRIGHT("\033[0;101m"),   // RED
     GREEN_BACKGROUND_BRIGHT("\033[0;102m"), // GREEN

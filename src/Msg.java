@@ -12,7 +12,4 @@ public abstract class Msg {
         this.user = user;
         this.pwd = pwd;
     }
-
-    public abstract Receiver getReceiver();
-
 }

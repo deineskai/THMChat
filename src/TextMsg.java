@@ -20,9 +20,4 @@ public class TextMsg extends Msg {
             }
         }
     }
-
-    @Override
-    public Receiver getReceiver() {
-        return null;
-    }
 }

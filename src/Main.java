@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    boolean running = true;
+    static boolean running = true;
 
     static BasicTHMChatServer s = new BasicTHMChatServer();
     static CommandHandler ch = new CommandHandler(s);
@@ -20,11 +20,11 @@ public class Main {
 
         System.out.println("Start chatting. Type in 'help' to see a list of commands.");
 
-        while (true){ //to-do: create some exiting command or listener
+        while (running){ //to-do: create some exiting command or listener
             ch.execute(in.nextLine());
+            running = CommandHandler.isRunning();
         }
     }
 
-    public void setRunning(boolean b){ running=b; }
 
 }
