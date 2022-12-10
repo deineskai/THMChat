@@ -1,0 +1,75 @@
+@startuml
+class Main {
+    s : BasicTHMChatServer
+    ch : CommandHandler
+    in : Scanner
+    running : boolean
+    void main()
+}
+class CommandHandler {
+    - s : BasicTHMChatServer
+    - user : String 
+    - pwd : String
+    - broadcast : ArrayList
+    - running : boolean
+    + CommandHandler(server: BasicTHMChatServer)
+    + execute(command: String): boolean
+    + isRunning(): boolean 
+    + getBroadcast(name: String): String
+    + getUser(name: String): String
+    - printMsg (m: String)
+    - isBroadcast(name: String): boolean
+    - isUser(name: String): boolean
+    - credentialsOK(): boolean
+}
+class InfoCode {
+    + print()
+    + print(user-or-broadcast: String)
+    + print(username: String, broadcast: String)
+}
+abstract class  Msg  {
+    # s : BasicTHMChatServer
+    # r : Receiver
+    # user : String
+    # pwd : String
+    + Msg(s: BasicTHMChatServer, r: Receiver, user: String, pwd: String) 
+}
+class TextMsg {
+    - content: String
+    + TextMsg(s: BasicTHMChatServer, r: Receiver, user: String, pwd: String, content: String)
+    + send()
+} 
+Msg <|-- TextMsg
+class ImageMsg  {
+    - image: InputStream
+    - mime: String
+    + ImageMsg(s: BasicTHMChatServer, r: Receiver, user: String, pwd: String, path: String)
+    + send()
+}
+Msg <|-- ImageMsg
+abstract class Receiver {
+    - name: String
+    + Receiver(name: String)
+    + getName(): String
+}
+class Broadcast {
+    - users: ArrayList
+    + Broadcast(name: String)
+    + add(u: Users)
+    + rem(name: String)
+}
+Receiver <|-- Broadcast
+class User {
+    + User(name: String)
+}
+Receiver <|-- User
+enum ANSCIColors {
+    - ansiCode: String
+    + get(): String
+    AnnsiColors(ansiCode: String)
+}
+Main .. CommandHandler: starts
+CommandHandler .. Broadcast: creates new
+CommandHandler .. TextMsg: creates new to send
+CommandHandler .. ImageMsg: creates new to send
+@enduml
