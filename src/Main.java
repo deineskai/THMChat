@@ -20,9 +20,9 @@ public class Main {
 
         System.out.println("Start chatting. Type in 'help' to see a list of commands.");
 
-        while (running){ //to-do: create some exiting command or listener
+        while (running){
             ch.execute(in.nextLine());
-            running = CommandHandler.isRunning();
+            running = ch.isRunning();
         }
     }
 

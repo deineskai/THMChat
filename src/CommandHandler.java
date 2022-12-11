@@ -62,8 +62,7 @@ public class CommandHandler {
                     System.out.print(ANSIColors.BLUE.get() + users[i] + ANSIColors.RESET.get()); //print username a current position to console
                     if (i != users.length - 1) { //every username except for the last one is followed by a comma
                         //every third comma will also have a line  break so that there will be three usernames per line
-                        if (i % 3 == 2) { System.out.println(", "); }
-                        else { System.out.print(", "); }
+                        System.out.println(", ");
                     }
                 }
                 System.out.println(); //an empty line for separation
@@ -142,8 +141,13 @@ public class CommandHandler {
                     InfoCodes.EMPTY.print(args.get(0));
                 } else {
                     ImageMsg msg = new ImageMsg(s, bc==null ? new User(u) : bc, user, pwd, args.get(1));
-                    msg.send();
-                    execute("refresh");
+                    try {
+                        msg.send();
+                        execute("refresh");
+                    } catch (IOException e) {
+                        System.out.println("Something with your image does not work for the server.");
+                    }
+
                 }
             }
             case "le" -> {
