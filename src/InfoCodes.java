@@ -1,5 +1,7 @@
 public enum InfoCodes {
 
+    //this enum makes it easier to print warnings to the console
+
     USER_INVALID,
     PWD_INVALID,
     CREDENTIALS_INCORRECT,

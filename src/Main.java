@@ -18,11 +18,11 @@ public class Main {
     //main method
     public static void main(String[] args) throws IOException {
 
-        System.out.println("Start chatting. Type in 'help' to see a list of commands.");
+        System.out.println("Start chatting. Type in 'help' to see a list of commands."); //welcome message
 
-        while (running){ //to-do: create some exiting command or listener
-            ch.execute(in.nextLine());
-            running = CommandHandler.isRunning();
+        while (running) {
+            ch.execute(in.nextLine()); //execute command from console input
+            running = CommandHandler.isRunning(); //update 'running' boolean
         }
     }
 

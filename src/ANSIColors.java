@@ -1,4 +1,7 @@
 public enum ANSIColors {
+
+    //this enum provides ansi codes for styling console output
+
     RESET("\033[0m"),
 
     BLACK("\033[0;30m"),   // BLACK

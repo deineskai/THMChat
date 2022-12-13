@@ -20,7 +20,7 @@ public class CommandHandler {
     }
 
     //method for executing commands
-     public void execute(String command) throws IOException  /**TO-DO: add try-catch around whole body*/ {
+     public void execute(String command) throws IOException { //but practically it doesn't because we check the credentials at line 52
         if (command.isEmpty() || command.isBlank()){ return; } //return if line is empty or blank
 
         ArrayList<String> args = new ArrayList<>(); //initialize arraylist 'args' to save arguments (empty)
@@ -33,8 +33,19 @@ public class CommandHandler {
 
         //gather arguments //adds each argument (divided by single spaces) to string array 'args'
         while (!command.isEmpty()){
-            args.add(command.substring(0,command.indexOf(" ")));
-            command = command.substring(command.indexOf(" ")+1);
+            if (command.charAt(0) == '\"'){
+                try {
+                    command = command.substring(1);
+                    args.add(command.substring(0, command.indexOf("\"")));
+                    command = command.substring(command.indexOf("\"") + 1);
+                } catch (Exception e) {
+                    System.out.println(ANSIColors.RED.get() + "Syntax error" + ANSIColors.RESET.get());
+                    return;
+                }
+            } else {
+                args.add(command.substring(0,command.indexOf(" ")));
+                command = command.substring(command.indexOf(" ")+1);
+            }
         }
 
         //if the command requires credentials and at least one hasn't been set, print warning and return
@@ -140,11 +151,12 @@ public class CommandHandler {
                 if (bc==null  && u==null) { InfoCodes.NOT_FOUND.print(args.get(0)); }
                 else if (bc!=null && bc.getUsers().size()==0) {
                     InfoCodes.EMPTY.print(args.get(0));
+                    break;
                 } else {
                     ImageMsg msg = new ImageMsg(s, bc==null ? new User(u) : bc, user, pwd, args.get(1));
                     msg.send();
-                    execute("refresh");
                 }
+                execute("refresh");
             }
             case "le" -> {
                 //either get 100 most recent or all messages depending on argument and save in string array 'messages'
@@ -186,7 +198,7 @@ public class CommandHandler {
                 System.out.println("exit: exits the chat");
                 System.out.println(ANSIColors.RESET.get());
             }
-            default -> InfoCodes.UNKNOWN_COMMAND.print();
+            default -> InfoCodes.UNKNOWN_COMMAND.print(); //print warning if command is unknown
         }
     }
     //end of execute
