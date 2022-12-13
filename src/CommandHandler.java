@@ -121,7 +121,8 @@ public class CommandHandler {
                 if (bc == null){ //if broadcast doesn't exist
                     InfoCodes.NOT_FOUND.print(args.get(0)); //print warning
                 } else { //if it exists
-                    broadcasts.removeIf(broadcast -> broadcast.getName().equals(args.get(0))); //delete it and
+                    bc.clear();
+                    broadcasts.removeIf(broadcast -> broadcast == bc); //delete it and
                     InfoCodes.DELETED.print(args.get(0)); //print info
                 }
             }
@@ -132,14 +133,18 @@ public class CommandHandler {
                 * if neither a broadcast nor a user shares the specified name of the receiver, print warning
                 * otherwise send message and refresh, so it gets displayed (automatically displays 100 most recent)
                 * */
-                if (bc==null && u==null) { InfoCodes.NOT_FOUND.print(args.get(0)); }
+                if (bc==null && u==null) {
+                    InfoCodes.NOT_FOUND.print(args.get(0));
+                    break;
+                }
                 else if (bc!=null && bc.getUsers().size()==0){
                     InfoCodes.EMPTY.print(args.get(0));
+                    break;
                 } else {
                     TextMsg msg = new TextMsg(s, bc==null ? new User(u) : bc, user, pwd, args.get(1));
                     msg.send();
-                    execute("refresh");
                 }
+                execute("refresh");
             }
             case "img" -> {
                 Broadcast bc = getBroadcast(args.get(0)); //select broadcast by specified receiver name from broadcast arraylist (null if it doesn't exist)

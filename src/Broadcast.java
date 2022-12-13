@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Broadcast extends Receiver {
 
-    private static final ArrayList<User> users = new ArrayList<>();
+    private static ArrayList<User> users = new ArrayList<>();
 
     //constructor
     public Broadcast(String name) {
@@ -22,6 +22,10 @@ public class Broadcast extends Receiver {
     //return all users of broadcast as an ArrayList
     public ArrayList<User> getUsers(){
         return users;
+    }
+
+    public void clear(){
+        users = new ArrayList<>();
     }
 
 }
