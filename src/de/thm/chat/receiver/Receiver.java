@@ -1,3 +1,5 @@
+package de.thm.chat.receiver;
+
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
 
 public abstract class Receiver {

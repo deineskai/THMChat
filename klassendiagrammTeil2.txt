@@ -1,18 +1,18 @@
 @startuml
-class Main {
+class de.thm.chat.Main {
     s : BasicTHMChatServer
-    ch : CommandHandler
+    ch : de.thm.chat.CommandHandler
     in : Scanner
     running : boolean
     void main()
 }
-class CommandHandler {
+class de.thm.chat.CommandHandler {
     - s : BasicTHMChatServer
     - user : String 
     - pwd : String
     - broadcast : ArrayList
     - running : boolean
-    + CommandHandler(server: BasicTHMChatServer)
+    + de.thm.chat.CommandHandler(server: BasicTHMChatServer)
     + execute(command: String): boolean
     + isRunning(): boolean 
     + getBroadcast(name: String): String
@@ -27,49 +27,49 @@ class InfoCode {
     + print(user-or-broadcast: String)
     + print(username: String, broadcast: String)
 }
-abstract class  Msg  {
+abstract class  de.thm.chat.msg.Msg  {
     # s : BasicTHMChatServer
-    # r : Receiver
+    # r : de.thm.chat.receiver.Receiver
     # user : String
     # pwd : String
-    + Msg(s: BasicTHMChatServer, r: Receiver, user: String, pwd: String) 
+    + de.thm.chat.msg.Msg(s: BasicTHMChatServer, r: de.thm.chat.receiver.Receiver, user: String, pwd: String)
 }
-class TextMsg {
+class de.thm.chat.msg.TextMsg {
     - content: String
-    + TextMsg(s: BasicTHMChatServer, r: Receiver, user: String, pwd: String, content: String)
+    + de.thm.chat.msg.TextMsg(s: BasicTHMChatServer, r: de.thm.chat.receiver.Receiver, user: String, pwd: String, content: String)
     + send()
 } 
-Msg <|-- TextMsg
-class ImageMsg  {
+de.thm.chat.msg.Msg <|-- de.thm.chat.msg.TextMsg
+class de.thm.chat.msg.ImageMsg  {
     - image: InputStream
     - mime: String
-    + ImageMsg(s: BasicTHMChatServer, r: Receiver, user: String, pwd: String, path: String)
+    + de.thm.chat.msg.ImageMsg(s: BasicTHMChatServer, r: de.thm.chat.receiver.Receiver, user: String, pwd: String, path: String)
     + send()
 }
-Msg <|-- ImageMsg
-abstract class Receiver {
+de.thm.chat.msg.Msg <|-- de.thm.chat.msg.ImageMsg
+abstract class de.thm.chat.receiver.Receiver {
     - name: String
-    + Receiver(name: String)
+    + de.thm.chat.receiver.Receiver(name: String)
     + getName(): String
 }
-class Broadcast {
+class de.thm.chat.receiver.Broadcast {
     - users: ArrayList
-    + Broadcast(name: String)
+    + de.thm.chat.receiver.Broadcast(name: String)
     + add(u: Users)
     + rem(name: String)
 }
-Receiver <|-- Broadcast
-class User {
-    + User(name: String)
+de.thm.chat.receiver.Receiver <|-- de.thm.chat.receiver.Broadcast
+class de.thm.chat.receiver.User {
+    + de.thm.chat.receiver.User(name: String)
 }
-Receiver <|-- User
+de.thm.chat.receiver.Receiver <|-- de.thm.chat.receiver.User
 enum ANSCIColors {
     - ansiCode: String
     + get(): String
     AnnsiColors(ansiCode: String)
 }
-Main .. CommandHandler: starts
-CommandHandler .. Broadcast: creates new
-CommandHandler .. TextMsg: creates new to send
-CommandHandler .. ImageMsg: creates new to send
+de.thm.chat.Main .. de.thm.chat.CommandHandler: starts
+de.thm.chat.CommandHandler .. de.thm.chat.receiver.Broadcast: creates new
+de.thm.chat.CommandHandler .. de.thm.chat.msg.TextMsg: creates new to send
+de.thm.chat.CommandHandler .. de.thm.chat.msg.ImageMsg: creates new to send
 @enduml

@@ -1,3 +1,5 @@
+package de.thm.chat.util;
+
 public enum InfoCodes {
 
     //this enum makes it easier to print warnings to the console

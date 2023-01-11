@@ -1,8 +1,10 @@
+package de.thm.chat.receiver;
+
 import java.util.*;
 
 public class Broadcast extends Receiver {
 
-    private static ArrayList<User> users = new ArrayList<>();
+    private static ArrayList<String> users = new ArrayList<>();
 
     //constructor
     public Broadcast(String name) {
@@ -10,17 +12,17 @@ public class Broadcast extends Receiver {
     }
 
     //add user to broadcast
-    public void add(User u){
-        users.add(u);
+    public void add(String user){
+        users.add(user);
     }
 
     //remove user from broadcast by name
-    public void rem(String name){
-        users.removeIf(user -> Objects.equals(user.getName(), name));
+    public void rem(String user){
+        users.removeIf(u -> Objects.equals(u, user));
     }
 
     //return all users of broadcast as an ArrayList
-    public ArrayList<User> getUsers(){
+    public ArrayList<String> getUsers(){
         return users;
     }
 

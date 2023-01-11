@@ -1,3 +1,5 @@
+package de.thm.chat.util;
+
 public enum ANSIColors {
 
     //this enum provides ansi codes for styling console output
