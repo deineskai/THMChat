@@ -1,15 +1,15 @@
 package de.thm.chat.receiver;
 
-import de.thm.oop.chat.base.server.BasicTHMChatServer;
-
 public abstract class Receiver {
 
-    private final String name;
+    private final String NAME;
 
-    public Receiver(String name){
-        this.name = name;
+    public Receiver(String name) {
+        this.NAME = name;
     }
 
-    public String getName(){ return name; }
+    public String getName() {
+        return NAME;
+    }
 
 }

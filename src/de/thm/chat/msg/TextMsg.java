@@ -7,18 +7,18 @@ import java.io.IOException;
 
 public class TextMsg extends Msg {
 
-    private final String content; //the actual message that should be sent
+    private final String content;
 
     public TextMsg(BasicTHMChatServer s, String user, String pwd, String content) {
         super(s, user, pwd);
-        this.content =  content;
+        this.content = content;
     }
 
     public void send(String u) {
-        try { //try to send message to server
+        try {
             s.sendTextMessage(user, pwd, u, content);
         } catch (IOException e) {
-        System.out.println(ANSIColors.RED.get() + e.getMessage() + ANSIColors.RESET.get()); //print warning
+            System.out.println(ANSIColors.RED.get() + e.getMessage() + ANSIColors.RESET.get());
         }
     }
 }

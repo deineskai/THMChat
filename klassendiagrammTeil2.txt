@@ -1,18 +1,18 @@
 @startuml
 class de.thm.chat.Main {
     s : BasicTHMChatServer
-    ch : de.thm.chat.CommandHandler
+    ch : de.thm.chat.cmd.CommandHandler
     in : Scanner
     running : boolean
     void main()
 }
-class de.thm.chat.CommandHandler {
+class de.thm.chat.cmd.CommandHandler {
     - s : BasicTHMChatServer
     - user : String 
     - pwd : String
     - broadcast : ArrayList
     - running : boolean
-    + de.thm.chat.CommandHandler(server: BasicTHMChatServer)
+    + de.thm.chat.cmd.CommandHandler(server: BasicTHMChatServer)
     + execute(command: String): boolean
     + isRunning(): boolean 
     + getBroadcast(name: String): String
@@ -68,8 +68,8 @@ enum ANSCIColors {
     + get(): String
     AnnsiColors(ansiCode: String)
 }
-de.thm.chat.Main .. de.thm.chat.CommandHandler: starts
-de.thm.chat.CommandHandler .. de.thm.chat.receiver.Broadcast: creates new
-de.thm.chat.CommandHandler .. de.thm.chat.msg.TextMsg: creates new to send
-de.thm.chat.CommandHandler .. de.thm.chat.msg.ImageMsg: creates new to send
+de.thm.chat.Main .. de.thm.chat.cmd.CommandHandler: starts
+de.thm.chat.cmd.CommandHandler .. de.thm.chat.receiver.Broadcast: creates new
+de.thm.chat.cmd.CommandHandler .. de.thm.chat.msg.TextMsg: creates new to send
+de.thm.chat.cmd.CommandHandler .. de.thm.chat.msg.ImageMsg: creates new to send
 @enduml
