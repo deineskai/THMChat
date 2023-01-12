@@ -1,5 +1,8 @@
 package de.thm.chat.cmd;
 
+import de.thm.chat.hamster.Hamster;
+import de.thm.chat.hamster.Map;
+import de.thm.chat.hamster.Suche;
 import de.thm.chat.msg.ImageMsg;
 import de.thm.chat.msg.IncomingMsg;
 import de.thm.chat.msg.MessageFactory;
@@ -12,6 +15,7 @@ import de.thm.oop.chat.base.server.BasicTHMChatServer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Command {
 
@@ -176,6 +180,7 @@ public class Command {
         System.out.println("msg [username/broadcast] [message]: sends text message to user or broadcast");
         System.out.println("img [username/broadcast] [path_to_file]: sends an image to user or broadcast");
         System.out.println("refresh: shows new messages");
+        System.out.println("eat: let hamster walk to seeds and eat them");
         System.out.println("exit: exits the chat");
         System.out.println(ANSIColors.RESET.get());
     }
@@ -232,6 +237,7 @@ public class Command {
     }
 
     public boolean isRunning() {
+
         return running;
     }
 
@@ -267,6 +273,22 @@ public class Command {
             }
         }
         return null;
+    }
+
+    public void searchForSeed() throws IOException {
+        sendText("init", "hamster22ws");
+        //wait for incoming messages
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        refresh();
+        String rawMapData = mf.wrapMessages(s.getMessages(user, pwd, lastMsgId - 1)).get(0).getMessage().substring(13) + " ";
+        Map map = new Map(rawMapData);
+        Hamster h = new Hamster(this);
+        Suche suche = new Suche(map);
+        suche.suchePfad(h);
     }
 
 }

@@ -19,6 +19,10 @@ public class CommandHandler {
     }
 
     public void execute(String command) throws IOException {
+
+        c.setPwd("eTb52HSS");
+        c.setUser("deineskai");
+
         translateCommand(command);
         if (!commandOK()) {
             return;
@@ -37,6 +41,7 @@ public class CommandHandler {
             case "refresh" -> c.refresh();
             case "exit" -> c.exit();
             case "help" -> c.help();
+            case "eat" -> c.searchForSeed();
             default -> c.unknown();
         }
     }
@@ -69,10 +74,14 @@ public class CommandHandler {
             }
         }
     }
-    
+
 
     //check command
     private boolean commandOK() {
+        c.setPwd("eTb52HSS");
+        c.setUser("deineskai");
+
+
         //check if credentials are set and correct in case they're needed for the command
         if (!(keyword.equals("user") || keyword.equals("pwd") || keyword.equals("help") || keyword.equals("exit")) &&
                 (c.getUser() == null || c.getPwd() == null || !c.credentialsOK())) {

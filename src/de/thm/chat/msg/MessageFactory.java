@@ -12,7 +12,7 @@ public class MessageFactory {
         return a;
     }
 
-    private ArrayList<String[]> collectMessages(String[] rawdata) {
+    public ArrayList<String[]> collectMessages(String[] rawdata) {
         ArrayList<String[]> messages = new ArrayList<>();
         for (String s : rawdata) {
             messages.add(disassembleMsg(s));
