@@ -19,6 +19,8 @@ public enum InfoCodes {
     CONNECTION_FAILED,
     UNKNOWN_COMMAND,
     UNKNOWN_ERROR,
+    SYNTAX,
+    NO_RESPONSE,
     DELETED,
     EMPTY;
     
@@ -38,6 +40,10 @@ public enum InfoCodes {
                     System.out.println(ANSIColors.RED.get() + "Unknown command" + ANSIColors.RESET.get());
             case UNKNOWN_ERROR ->
                     System.out.println(ANSIColors.RED.get() + "An unknown error occurred" + ANSIColors.RESET.get());
+            case NO_RESPONSE ->
+                    System.out.println(ANSIColors.RED.get() + "The hamster did not respond in time" + ANSIColors.RESET.get());
+            case SYNTAX ->
+                    System.out.println(ANSIColors.RED.get() + "Syntax error" + ANSIColors.RESET.get());
         }
     }
 

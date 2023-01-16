@@ -8,6 +8,7 @@ public abstract class Receiver {
         this.NAME = name;
     }
 
+    /* getters */
     public String getName() {
         return NAME;
     }

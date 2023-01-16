@@ -14,6 +14,7 @@ public class TextMsg extends Msg {
         this.content = content;
     }
 
+    /* methods */
     public void send(String u) {
         try {
             s.sendTextMessage(user, pwd, u, content);

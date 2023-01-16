@@ -14,6 +14,7 @@ public class Hamster {
         this.c = c;
     }
 
+    /* methods */
     public void move() {
         c.sendText("vor", "hamster22ws");
         switch (facing) {
@@ -33,6 +34,8 @@ public class Hamster {
         c.sendText("nimm", "hamster22ws");
     }
 
+
+    /* getter */
     public int getRow() {
         return row;
     }

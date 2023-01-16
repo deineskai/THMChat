@@ -15,7 +15,7 @@ public class Main {
 
     //main method
     public static void main(String[] args) throws IOException {
-        System.out.println("Start chatting. Type in 'help' to see a list of commands.");
+        System.out.println("Start chatting. Type in 'help' to see a list of commands."); // welcome message
         while (ch.isRunning()) {
             ch.execute(in.nextLine());
         }

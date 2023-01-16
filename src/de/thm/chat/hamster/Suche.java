@@ -4,20 +4,9 @@ public class Suche {
 
     private final Map map;
 
-    private static boolean found = false; //Wahrheitswert 'found', welcher aussagt, ob Target gefunden wurde wird mit FALSCH initialisiert
+    private static boolean found = false; //Wahrheitswert 'found', welcher aussagt, ob Target gefunden wurde, wird mit FALSCH initialisiert
 
     private static int rows, cols, targetCol = Integer.MAX_VALUE / 2, targetRow = Integer.MAX_VALUE / 2; //Variablen f?r Koordinaten des Target anlegen
-
-    private final int[][] tiles;
-
-    private final Pfad route = new Pfad();
-
-    public Suche(Map map) {
-        this.map = map;
-        rows = map.getRows();
-        cols = map.getCols();
-        tiles = map.getTiles();
-    }
 
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++
     Zweidimensionales Integer Array, welches das
@@ -29,31 +18,24 @@ public class Suche {
     Werte > 1 sind Indizes
     +++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     //int[][] map = new int[cols][rows];
+    private final int[][] tiles;
+
+    private final Pfad route = new Pfad();
 
 
-    void selectTarget(Hamster h) {
-        tiles[h.getRow()][h.getCol()] = 1; //Markiere die Position des Hamsters mit 1
-        //Iteriere ?ber jededes Feld im Territorium
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (map.isSeed(i, j) && gridDistance(h, i, j) < gridDistance(h, targetRow, targetCol)) { //Wenn auf dem Feld Koerner liegen, speichere seine Koordinaten als die des Target
-                    targetRow = i;
-                    targetCol = j;
-                }
-            }
-        }
+
+    public Suche(Map map) {
+        this.map = map;
+        rows = map.getRows();
+        cols = map.getCols();
+        tiles = map.getTiles();
     }
 
-    private int gridDistance(Hamster h, int row, int col) {
-        int deltaRow = Math.abs(h.getRow() - row);
-        int deltaCol = Math.abs(h.getCol() - col);
-        return deltaRow + deltaCol;
-    }
-
+    /* methods */
     public void suchePfad(Hamster h) {
         selectTarget(h);
         int ind = 1; //Erstelle Indexvariable und setze sie auf 1 //Diese wird verwendet, um die Reihenfolge der Felder zu speichern
-        //So lange das Target nicht erreicht wurde iteriere durch das Array
+        //Solange das Target nicht erreicht wurde iteriere durch das Array
         do {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
@@ -83,4 +65,24 @@ public class Suche {
             tiles[row][col] = ind; //Markiere es mit einem Index
         }
     }
+
+    void selectTarget(Hamster h) {
+        tiles[h.getRow()][h.getCol()] = 1; //Markiere die Position des Hamsters mit 1
+        //Iteriere ?ber jededes Feld im Territorium
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (map.isSeed(i, j) && gridDistance(h, i, j) < gridDistance(h, targetRow, targetCol)) { //Wenn auf dem Feld Koerner liegen, speichere seine Koordinaten als die des Targets
+                    targetRow = i;
+                    targetCol = j;
+                }
+            }
+        }
+    }
+
+    private int gridDistance(Hamster h, int row, int col) {
+        int deltaRow = Math.abs(h.getRow() - row);
+        int deltaCol = Math.abs(h.getCol() - col);
+        return deltaRow + deltaCol;
+    }
+
 }

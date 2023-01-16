@@ -17,11 +17,13 @@ public class IncomingMsg {
         this.message = msg[5];
     }
 
+    /*  methods */
     public void print() {
         System.out.println(datetime + " | " + ANSIColors.BLUE.get() + sender + " -> " + receiver +
                 ANSIColors.RESET.get() + ": " + ANSIColors.YELLOW_BOLD.get() + message + ANSIColors.RESET.get());
     }
 
+    /* getters */
     public int getId() {
         return id;
     }

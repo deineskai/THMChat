@@ -18,8 +18,6 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Command {
-
-
     private final BasicTHMChatServer s;
     private final MessageFactory mf = new MessageFactory();
     private final ArrayList<Broadcast> broadcasts = new ArrayList<>();
@@ -42,8 +40,11 @@ public class Command {
         pwd = password;
     }
 
+    /**
+     * Prints all chat users to console divided by commas. Each line contains up to three usernames.
+     * */
     public void listUsers() {
-        String[] users = new String[0]; //get an array of all usernames
+        String[] users = new String[0]; // get an array of all usernames
         try {
             users = s.getUsers(user, pwd);
         } catch (IOException e) {
@@ -51,10 +52,9 @@ public class Command {
         }
         //print all usernames
         System.out.println("All users in this chat:");
-        for (int i = 0; i < users.length; i++) { //iterate through username array
+        for (int i = 0; i < users.length; i++) {
             System.out.print(ANSIColors.BLUE.get() + users[i] + ANSIColors.RESET.get()); //print username to console
-            if (i != users.length - 1) { //every username except for the last one is followed by a comma
-                //every third comma will also have a line  break so that there will be three usernames per line
+            if (i < users.length - 1) { // every username except for the last one is followed by a comma
                 if (i % 3 == 2) {
                     System.out.println(", ");
                 } else {
@@ -62,9 +62,13 @@ public class Command {
                 }
             }
         }
-        System.out.println(); //an empty line for separation
+        System.out.println(); // an empty line for separation
     }
 
+    /**
+     * Adds a new broadcast with the given name to {@link ArrayList<> broadcasts}.
+     * Won't add broadcast if there's another broadcast or user with the given name.
+     * */
     public void createBroadcast(String name) {
         if (!isBroadcast(name)) {
             if (!isUser(name)) {
@@ -78,6 +82,9 @@ public class Command {
         }
     }
 
+    /**
+     * Adds user to broadcast if both exist and the user isn't already a member of that broadcast.
+     * */
     public void addToBroadcast(String user, String name) {
         Broadcast bc = getBroadcast(name); //select broadcast by specified name from broadcast arraylist (null if it doesn't exist)
 
@@ -96,6 +103,9 @@ public class Command {
         }
     }
 
+    /**
+     * Removes user from broadcast if both exist and the user is a member of the broadcast.
+     * */
     public void removeFromBroadcast(String user, String name) {
         Broadcast bc = getBroadcast(name); //select broadcast by specified name from broadcast arraylist (null it doesn't exist)
         if (bc != null && bc.getUsers().stream().anyMatch(u -> u.equals(user))) { //if specified user and broadcast exist
@@ -110,6 +120,9 @@ public class Command {
         }
     }
 
+    /**
+     * Deletes broadcast with given name if it exists.
+     * */
     public void deleteBroadcast(String name) {
         if (isBroadcast(name)) {
             Broadcast bc = getBroadcast(name);
@@ -122,6 +135,11 @@ public class Command {
         }
     }
 
+    /**
+     * Sends given {@code String} as text message to given receiver.
+     * If the receiver is a broadcast it will be sent to every user of that broadcast.
+     * This method also calls refresh(); to print the new message to console.
+     * */
     public void sendText(String message, String receiver) {
         TextMsg msg = new TextMsg(s, user, pwd, message);
         for (String u : Objects.requireNonNull(gatherUsers(receiver))) {
@@ -130,6 +148,11 @@ public class Command {
         refresh();
     }
 
+    /**
+     * Reads image file from given file path and sends it to given receiver.
+     * If the receiver is a broadcast it will be sent to every user of that broadcast.
+     * This method also calls refresh(); to print the new message to console.
+     * */
     public void sendImage(String path, String receiver) {
         ImageMsg msg = new ImageMsg(s, user, pwd, path);
         for (String u : Objects.requireNonNull(gatherUsers(receiver))) {
@@ -138,21 +161,30 @@ public class Command {
         refresh();
     }
 
-    public void listEverything(ArrayList<String> args) throws IOException {
-        //either get 100 most recent or all messages depending on argument and save in string array 'messages'
-        ArrayList<IncomingMsg> messages = mf.wrapMessages((args.size() != 0 && args.get(0).equals("100")) ?
-                s.getMostRecentMessages(user, pwd) :
-                s.getMessages(user, pwd, 0));
+    /**
+     * Prints all messages to console.
+     * */
+    public void listEverything() {
+        ArrayList<IncomingMsg> messages;
+        try {
+            messages = mf.wrapMessages(s.getMessages(user, pwd, 0));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for (IncomingMsg msg : messages) {
             msg.print();
         }
         updateMsgCounter(messages);
     }
 
+    /**
+     * Prints all new messages to console.
+     * If no messages have been printed yet the 100 most recent will be.
+     * */
     public void refresh() {
         ArrayList<IncomingMsg> messages;
         try {
-            messages = mf.wrapMessages(s.getMessages(user, pwd, lastMsgId));
+            messages = mf.wrapMessages(lastMsgId==0?s.getMostRecentMessages(user, pwd):s.getMessages(user, pwd, lastMsgId));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -166,20 +198,23 @@ public class Command {
         running = false;
     }
 
+    /**
+     * Prints help page to console.
+     * */
     public void help() {
         System.out.println(ANSIColors.YELLOW.get());
         System.out.println("Command usage and meaning:");
         System.out.println("user [username]: set username");
         System.out.println("pwd [password]: set password");
-        System.out.println("list: shows a list of all users in this chat");
-        System.out.println("le (100): shows all messages (optional: the 100 most recent)");
+        System.out.println("lu: shows a list of all users in this chat");
+        System.out.println("le: shows all messages");
         System.out.println("bc [name]: creates a broadcast");
         System.out.println("bcadd [name] [username]: adds user to broadcast");
         System.out.println("bcrem [name] [username]: removes user from broadcast");
-        System.out.println("bcdel [broadcast]: deletes broadcast");
+        System.out.println("bcdel [name]: deletes broadcast");
         System.out.println("msg [username/broadcast] [message]: sends text message to user or broadcast");
-        System.out.println("img [username/broadcast] [path_to_file]: sends an image to user or broadcast");
-        System.out.println("refresh: shows new messages");
+        System.out.println("img [username/broadcast] [\"path to file\"]: sends an image to user or broadcast");
+        System.out.println("refresh: shows new or the 100 most recent messages");
         System.out.println("eat: let hamster walk to seeds and eat them");
         System.out.println("exit: exits the chat");
         System.out.println(ANSIColors.RESET.get());
@@ -191,10 +226,18 @@ public class Command {
 
 
     /* helper methods */
+    /**
+     * Updates {@link Integer lastMsgId} to the id of the last message.
+     * */
     private void updateMsgCounter(ArrayList<IncomingMsg> messages) {
         lastMsgId = messages.isEmpty() ? lastMsgId : messages.get(messages.size() - 1).getId();
     }
 
+    /**
+     * If the receiver is a broadcast, an ArrayList containing all of its users will be returned.
+     * Otherwise, a single user will be in the ArrayList.
+     * If it's neither a broadcast nor a single user, an empty ArrayList will be returned.
+     * */
     private ArrayList<String> gatherUsers(String receiver) {
         ArrayList<String> users = new ArrayList<>();
         if (isUser(receiver)) {
@@ -222,6 +265,9 @@ public class Command {
         return pwd;
     }
 
+    /**
+     * Checks the credentials by sending a user request to the server.
+     * */
     public boolean credentialsOK() {
         try {
             s.getUsers(user, pwd);
@@ -237,14 +283,19 @@ public class Command {
     }
 
     public boolean isRunning() {
-
         return running;
     }
 
+    /**
+     * Returns {@code true} if there's a broadcast with the given name.
+     * */
     private boolean isBroadcast(String name) {
         return broadcasts.stream().anyMatch(broadcast -> broadcast.getName().equals(name));
     }
 
+    /**
+     * Returns {@code true} if there's a user with the given name.
+     * */
     private boolean isUser(String name) {
         String[] users = new String[0];
         try {
@@ -266,6 +317,10 @@ public class Command {
         return broadcasts;
     }
 
+    /**
+     * Returns the broadcast with the given name.
+     * Returns {@code null} if it doesn't exist.
+     * */
     private Broadcast getBroadcast(String name) {
         for (Broadcast broadcast : broadcasts) {
             if (broadcast.getName().equals(name)) {
@@ -275,20 +330,22 @@ public class Command {
         return null;
     }
 
+    /**
+     * Initializes the hamster, and lets it find and walk to seeds.
+     * */
     public void searchForSeed() throws IOException {
         sendText("init", "hamster22ws");
-        //wait for incoming messages
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        try { TimeUnit.SECONDS.sleep(3); } // wait for incoming messages
+        catch (Exception e) { throw new RuntimeException(e); }
         refresh();
-        String rawMapData = mf.wrapMessages(s.getMessages(user, pwd, lastMsgId - 1)).get(0).getMessage().substring(13) + " ";
-        Map map = new Map(rawMapData);
-        Hamster h = new Hamster(this);
-        Suche suche = new Suche(map);
-        suche.suchePfad(h);
+        try {
+            String rawMapData = mf.wrapMessages(s.getMessages(user, pwd, lastMsgId - 1)).get(0).getMessage().substring(13) + " ";
+            Map map = new Map(rawMapData);
+            Hamster h = new Hamster(this);
+            Suche suche = new Suche(map);
+            suche.suchePfad(h);
+        } catch (StringIndexOutOfBoundsException e){ InfoCodes.NO_RESPONSE.print(); }
+
     }
 
 }

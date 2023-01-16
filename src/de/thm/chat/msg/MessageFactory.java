@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class MessageFactory {
 
+    public MessageFactory(){}
+
+    /* methods */
     public ArrayList<IncomingMsg> wrapMessages(String[] rawdata) {
         ArrayList<IncomingMsg> a = new ArrayList<>();
         for (String[] msg : collectMessages(rawdata)) {

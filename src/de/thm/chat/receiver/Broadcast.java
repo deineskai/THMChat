@@ -11,7 +11,7 @@ public class Broadcast extends Receiver {
         super(name);
     }
 
-
+    /* methods */
     public void add(String user) {
         users.add(user);
     }
@@ -24,6 +24,7 @@ public class Broadcast extends Receiver {
         users = new ArrayList<>();
     }
 
+    /* getters */
     public ArrayList<String> getUsers() {
         return users;
     }

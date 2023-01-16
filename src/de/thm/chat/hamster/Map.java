@@ -10,6 +10,7 @@ public class Map {
         gatherMapData(rawData);
     }
 
+    /* methods */
     private void gatherMapData(String rawdata) {
         ArrayList<Integer> chopped = chopUpMapData(rawdata);
         int cols = chopped.get(0);
@@ -45,6 +46,7 @@ public class Map {
         return val;
     }
 
+    /* getters */
     public int[][] getTiles() {
         return tiles;
     }

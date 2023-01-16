@@ -16,6 +16,7 @@ public class ImageMsg extends Msg {
         mime = "image/" + path.substring(path.lastIndexOf(".") + 1);
     }
 
+    /* methods */
     public void send(String u) {
         try {
             InputStream image = new FileInputStream(path);
