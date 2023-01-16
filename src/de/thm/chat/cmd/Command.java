@@ -26,7 +26,7 @@ public class Command {
     private int lastMsgId;
     private boolean running = true;
 
-
+    // constructor
     public Command(BasicTHMChatServer s) {
         this.s = s;
     }
