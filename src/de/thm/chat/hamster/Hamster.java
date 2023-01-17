@@ -17,6 +17,7 @@ public class Hamster {
     /* methods */
     public void move() {
         c.sendText("vor", "hamster22ws");
+        // not necessary:
         switch (facing) {
             case 0 -> row--;
             case 1 -> col++;

@@ -339,7 +339,8 @@ public class Command {
         catch (Exception e) { throw new RuntimeException(e); }
         refresh();
         try {
-            String rawMapData = mf.wrapMessages(s.getMessages(user, pwd, lastMsgId - 1)).get(0).getMessage().substring(13) + " ";
+            String rawMapData = mf.wrapMessages(s.getMessages(user, pwd, lastMsgId - 1))
+                    .get(0).getMessage().substring(13) + " ";
             Map map = new Map(rawMapData);
             Hamster h = new Hamster(this);
             Suche suche = new Suche(map);

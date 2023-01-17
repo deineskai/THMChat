@@ -3,10 +3,7 @@ package de.thm.chat.hamster;
 public class Suche {
 
     private final Map map;
-
-    /*Wahrheitswert 'found', welcher aussagt, ob Target gefunden wurde, wird mit FALSCH initialisiert*/
-    private static boolean found = false;
-    /*Variablen f?r Koordinaten des Target anlegen*/
+    private static boolean found = false; // sagt aus, ob Target gefunden wurde
     private static int rows, cols, targetCol = Integer.MAX_VALUE / 2, targetRow = Integer.MAX_VALUE / 2;
 
     /**
@@ -33,18 +30,18 @@ public class Suche {
     }
 
     /* methods */
+    /**Erstellt Indexvariable, um die Reihenfolge der Felder zu speichern.
+     *Iteriert durch das Array so lange das Target nicht erreicht wurde und
+     * markiert Nachbarfelder mit Index+1, wenn das Feld mit aktuellem Index gefunden wurde.
+     * Nach jedem Durchlauf des gesamten Arrays wird der Index inkrementiert.
+     **/
     public void suchePfad(Hamster h) {
         selectTarget(h);
-        /**Erstelle Indexvariable, um die Reihenfolge der Felder zu speichern.
-        *Solange das Target nicht erreicht wurde iteriere durch das Array
-        **/
+
         int ind = 1;
         do {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    /**Wenn das Feld mit aktuellem Index gefunden wurde
-                     * makiere Nachbarfelder mit Index+1
-                    **/
                     if (tiles[i][j] == ind) {
                         mark(i - 1, j, ind + 1);
                         mark(i + 1, j, ind + 1);
@@ -60,8 +57,10 @@ public class Suche {
         route.hamsterLauf(h);
     }
 
+    /**
+     * Markiert Feld falls gültig und prüft, ob das Target gefunden wurde.
+     * */
     void mark(int row, int col, int ind) {
-        /*Methode, die gueltige Nachbarn markiert*/
         if (col == targetCol && row == targetRow) {
             found = true;
         }
@@ -70,6 +69,9 @@ public class Suche {
         }
     }
 
+    /**
+     * Ermittelt die Position des nächsten Korns und speichert seine Position als die des Targets.
+     * */
     void selectTarget(Hamster h) {
         tiles[h.getRow()][h.getCol()] = 1;
         for (int i = 0; i < rows; i++) {
@@ -82,6 +84,9 @@ public class Suche {
         }
     }
 
+    /**
+     * Ermittelt die Manhattan-Distanz zum Hamster.
+     * */
     private int gridDistance(Hamster h, int row, int col) {
         int deltaRow = Math.abs(h.getRow() - row);
         int deltaCol = Math.abs(h.getCol() - col);

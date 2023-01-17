@@ -39,7 +39,7 @@ public class CommandHandler {
             case "refresh" -> c.refresh();
             case "exit" -> c.exit();
             case "help" -> c.help();
-            case "eat" -> c.searchForSeed();
+            case "hamster" -> c.searchForSeed();
             default -> c.unknown();
         }
     }

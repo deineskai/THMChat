@@ -10,23 +10,25 @@ public class Pfad {
     *-------------------------------------------------------
     *0 = NORD
     *1 = OST
-    *2 = SUED
+    *2 = SÜD
     *3 = WEST
     **/
     int[] path;
 
     /*methods*/
+
+    /**
+     *Iteriert rückwärts durch alle Indizes, sucht dabei
+     *ausgehend vom Target immer genau einen indizierten Nachbarn und
+     *speichert die Bewegungsrichtung in 'path'.
+     **/
     void erstellePfad(int ind, int row, int col, int[][] map) {
-    	/**
-    	*Iteriere rückwärts durch alle Indizes, suche dabei
-    	*ausgehend vom Target immer genau einen Nachbarn und
-    	*speichere die Bewegungsrichtung in 'path'.
-    	**/
+
         int rows = map.length;
         int cols = map[0].length;
         path = new int[ind - 1];
         for (int i = ind; i > 1; i--) {
-            //Pr?fe jeweils vorher, ob der Nachbar gültig ist
+            //Prüfe jeweils vorher, ob der Nachbar gültig ist
             if (row + 1 < rows && map[row + 1][col] == i - 1) {
                 row++;
                 path[ind - i] = 0;
@@ -42,22 +44,19 @@ public class Pfad {
             }
         }
     }
-
+    /**
+     *Iteriert rückwärts durch 'path'.
+     *Lässt den Hamster sich so oft drehen, bis er in die
+     *Richtung schaut, die an der aktuellen Position in
+     *'path' angegeben ist und ihn dann einen Schritt laufen. Zum schluss nimmt er das Korn.
+     * **/
     void hamsterLauf(Hamster h) {
-    	/**
-    	*Iteriere r?ckw?rts durch 'path'.
-    	**/
         for (int i = path.length - 1; i >= 0; i--) {
-    		/**
-    		*Lass den Hamster sich so oft drehen, bis er in die
-    		*Richtung schaut, die an der aktuellen Position im
-    		*'path' angegeben ist.
-    		**/
             while (h.getFacing() != path[i]) {
                 h.turnLeft();
             }
             h.move();
         }
-        // h.pickUp();
+        // h.pickUp();  // wird für Wettrennen ausgelassen
     }
 }
