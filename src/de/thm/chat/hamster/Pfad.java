@@ -2,25 +2,26 @@ package de.thm.chat.hamster;
 
 public class Pfad {
 
-    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    Lege 'path' als eindimensionales Integer Array an.
-    Dieses dient der Erfassung der Bewegungsrichtungen zum
-    Erreichen des Targets.
-    Soll mit Werten von 0 bis 3 gefüllt werden:
-    -------------------------------------------------------
-    0 = NORD
-    1 = OST
-    2 = SUED
-    3 = WEST
-    +++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    /**
+    *Lege 'path' als eindimensionales Integer Array an.
+    *Dieses dient der Erfassung der Bewegungsrichtungen zum
+    *Erreichen des Targets.
+    *Soll mit Werten von 0 bis 3 gefüllt werden:
+    *-------------------------------------------------------
+    *0 = NORD
+    *1 = OST
+    *2 = SUED
+    *3 = WEST
+    **/
     int[] path;
 
+    /*methods*/
     void erstellePfad(int ind, int row, int col, int[][] map) {
-    	/*+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	Iteriere rückwärts durch alle Indizes, suche dabei
-    	ausgehend vom Target immer genau einen Nachbarn und
-    	speichere die Bewegungsrichtung in 'path'.
-    	+++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    	/**
+    	*Iteriere rückwärts durch alle Indizes, suche dabei
+    	*ausgehend vom Target immer genau einen Nachbarn und
+    	*speichere die Bewegungsrichtung in 'path'.
+    	**/
         int rows = map.length;
         int cols = map[0].length;
         path = new int[ind - 1];
@@ -43,20 +44,19 @@ public class Pfad {
     }
 
     void hamsterLauf(Hamster h) {
-    	/*+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	Iteriere r?ckw?rts durch 'path'.
-    	+++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    	/**
+    	*Iteriere r?ckw?rts durch 'path'.
+    	**/
         for (int i = path.length - 1; i >= 0; i--) {
-
-    		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    		Lass den Hamster sich so oft drehen, bis er in die
-    		Richtung schaut, die an der aktuellen Position im
-    		'path' angegeben ist.
-    		+++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    		/**
+    		*Lass den Hamster sich so oft drehen, bis er in die
+    		*Richtung schaut, die an der aktuellen Position im
+    		*'path' angegeben ist.
+    		**/
             while (h.getFacing() != path[i]) {
                 h.turnLeft();
             }
-            h.move(); //Lass den Hamster einen Schritt laufen.
+            h.move();
         }
         // h.pickUp();
     }
